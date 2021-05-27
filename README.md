@@ -25,7 +25,7 @@
 
 
 ## Results
-<img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/tony.jpg" width="150" height="250">
+<img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/tony.jpg" width="150" height="250"> <img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/Aladdin_fig.png" width="150" height="250">
 
 <!-- CONTACT -->
 ## Contact
@@ -33,3 +33,6 @@
 - Fredrik Mazur - fredrik@mazur.se
 - Daniel Grönås - daniel.gronas@hotmail.com
 - Joachim Ottosson - joa.ottosson@gmail.com
+
+
+
