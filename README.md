@@ -1,5 +1,5 @@
 # Plastic Bale Image Recognition
-![gif](https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/Aladdin.gif | width=100)
+![gif](https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/Aladdin.gif)
 
 ## Table of contents
 
