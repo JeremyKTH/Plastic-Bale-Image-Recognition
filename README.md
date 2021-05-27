@@ -34,6 +34,7 @@
 - Daniel Grönås - daniel.gronas@hotmail.com
 - Joachim Ottosson - joa.ottosson@gmail.com
 - Tess Antonsson - tantonsson@gmail.com
+- Jan Siwek - siwek@kth.se
 
 
 
