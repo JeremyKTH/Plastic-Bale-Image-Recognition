@@ -25,7 +25,7 @@
 
 ## Results
 Coming soon:
-<img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/tony.jpg" width="50" height="50">
+<img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/tony.jpg" width="100" height="100">
 
 <!-- CONTACT -->
 ## Contact
