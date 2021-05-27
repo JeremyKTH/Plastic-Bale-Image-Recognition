@@ -1,5 +1,4 @@
 # Plastic Bale Image Recognition
-![gif](https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/Aladdin.gif)
 ![AWL](https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/Images/wheel_loader8.png)
 
 
@@ -16,6 +15,7 @@
 
 
 ## Introduction
+![gif](https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/Aladdin.gif)
 
 ## Dataset
 ![plasticbale](https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/Images/plasticbale.png)
