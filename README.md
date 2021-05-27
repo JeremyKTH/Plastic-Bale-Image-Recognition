@@ -16,8 +16,7 @@
 ## Introduction
 
 ## Dataset
-<img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/Images/plasticbale.png" width="250" height="220">  <img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/Images/wheel_loader8.png" width="300" height="220"> 
-
+<img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/Images/plasticbale.png" width="250" height="220">
 
 ## Requirements
 - Python  3.9.1
@@ -26,7 +25,6 @@
 
 
 ## Results
-Coming soon:
 <img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/tony.jpg" width="150" height="250">
 
 <!-- CONTACT -->
@@ -34,3 +32,4 @@ Coming soon:
 - Chieh-Ju Wu (Jeremy) - jeremy.cjwukth@gmail.com
 - Fredrik Mazur - fredrik@mazur.se
 - Daniel Grönås - daniel.gronas@hotmail.com
+- Joachim Ottosson - joa.ottosson@gmail.com
