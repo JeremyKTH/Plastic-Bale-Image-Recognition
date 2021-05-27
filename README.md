@@ -26,6 +26,7 @@
 
 ## Results
 <img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/tony.jpg" width="150" height="250"> 
+
 <!-- CONTACT -->
 ## Contact
 - Chieh-Ju Wu (Jeremy) - jeremy.cjwukth@gmail.com
