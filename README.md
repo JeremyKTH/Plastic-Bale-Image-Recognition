@@ -1,6 +1,5 @@
 # Plastic Bale Image Recognition
-![AWL](https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/Images/wheel_loader8.png)
-
+![gif](https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/Aladdin.gif)
 
 ## Table of contents
 
@@ -15,10 +14,8 @@
 
 
 ## Introduction
-![gif](https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/Aladdin.gif)
 
 ## Dataset
-![plasticbale](https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/Images/plasticbale.png)
 
 ## Requirements
 - Python  3.9.1
@@ -27,6 +24,8 @@
 
 
 ## Results
+Coming soon:
+![.jpg](https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/tony.jpg)
 
 <!-- CONTACT -->
 ## Contact
