@@ -16,7 +16,7 @@
 ## Introduction
 
 ## Dataset
-
+![plasticbale](https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/Images/plasticbale.png)
 ## Requirements
 - Python  3.9.1
 - PyTorch 1.8.1
