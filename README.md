@@ -16,7 +16,8 @@
 ## Introduction
 
 ## Dataset
-<img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/Images/plasticbale.png" width="250" height="220">
+<img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/Images/plasticbale.png" width="250" height="220">  <img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/Images/wheel_loader8.png" width="250" height="220"> 
+
 
 ## Requirements
 - Python  3.9.1
