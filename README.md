@@ -33,7 +33,7 @@
 - Fredrik Mazur - fredrik@mazur.se
 - Daniel Grönås - daniel.gronas@hotmail.com
 - Joachim Ottosson - joa.ottosson@gmail.com
-- Tessandra Antonsson - tantonsson@gmail.com
+- Tess Antonsson - tantonsson@gmail.com
 
 
 
