@@ -4,7 +4,7 @@
 # Table of contents
 
 <!--ts-->
-   * [Plastic Bale Recognition](#Plastic Bale Recognition)
+   * [Plastic Bale Recognition](#Plastic_Bale_Recognition)
    * [Mapping](#Mapping)
    * [Navigation](#Navigation)
    * [Contacts](#Contacts)
@@ -13,7 +13,7 @@
 <!--te-->
 
 
-## Plastic Bale Recognition
+## [Plastic Bale Recognition](#Plastic_Bale_Recognition)
 
 <!--ts-->
    * [Introduction](#Introduction)
