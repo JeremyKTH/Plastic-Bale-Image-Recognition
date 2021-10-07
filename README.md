@@ -44,7 +44,7 @@ The datasets that is being used is created by the team. It consists of images ta
 
 <!--ts-->
    * [Introduction Mapping](#Introduction_Mapping)
-   * [Results Mapping](#Results _Mapping)
+   * [Results Mapping](#Results_Mapping)
 <!--te-->
 
 
