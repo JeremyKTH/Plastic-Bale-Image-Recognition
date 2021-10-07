@@ -7,6 +7,7 @@
    * Plastic Bale Recognition
    * Mapping
    * Navigation
+   * Contact
    
 
 <!--te-->
@@ -24,23 +25,24 @@
 <!--te-->
 
 
-#### Introduction
+### Introduction
+In order to recognize plastic bale, a model of yolov3 is used. The model is trained on a custom made dataset and recognizes one class, plastic bales. When running yolo, the software creates a bounding box surrounding the plastic bale.
 
-#### Dataset
+### Dataset
 <img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/Images/plasticbale.png" width="250" height="220"> 
 The datasets that is being used is created by the team. It consists of images taken from the internet of the plastic bale as well as images of our own plastic bale model. In order to get more data, we have augumented the images with 90 degree flips to get more images. 
 
-#### Requirements
+### Requirements
 - Python  3.9.1
 - PyTorch 1.8.1
 - CUDA toolkit 10.2
 
 
-#### Results
+### Results
 <img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/tony.jpg" width="150" height="250"> 
 
 <!-- CONTACT -->
-#### Contact
+## Contact
 - Chieh-Ju Wu (Jeremy) - jeremy.cjwukth@gmail.com
 - Fredrik Mazur - fredrik@mazur.se
 - Daniel Grönås - daniel.gronas@hotmail.com
