@@ -1,0 +1,14 @@
+yolo_model:
+
+  config_file:
+    name: yolov2-tiny.cfg
+  weight_file:
+    name: yolov3_training_last.weights
+  threshold:
+    value: 0.1
+  detection_classes:
+    names:
+      - Plastic Bale
+      
+   
+    

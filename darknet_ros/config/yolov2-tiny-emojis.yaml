@@ -1,0 +1,14 @@
+yolo_model:
+
+  config_file:
+    name: yolov2-tiny-emoji.cfg
+  weight_file:
+    name: yolov2-tiny-emoji_40000.weights
+  threshold:
+    value: 0.7
+  detection_classes:
+    names:
+      - monkey
+      - surprised
+      - thoughtful
+      - like_a_boss
