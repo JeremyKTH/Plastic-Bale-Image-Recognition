@@ -47,18 +47,40 @@ The datasets that is being used is created by the team. It consists of images ta
 ## Mapping
 
 <!--ts-->
-   * [Introduction](#Introduction)
-   * [Results](#Results)
+   * [Introduction Mapping](#Introduction Mapping)
+   * [Results Mapping](#Results Mapping)
 <!--te-->
 
 
-### Introduction
+### Introduction Mapping
 
 A 2D map is created through SLAM. The camera being used is a ZED2, which has an IMU. Therefore, it is translated into laserscan in order to use gmapping. 
 
 
-### Results
+### Results Mapping
 <img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/tony.jpg" width="150" height="250"> 
+
+
+
+<!-- Navigation -->
+
+## Navigation
+
+<!--ts-->
+   * [Introduction Navigation](#Introduction Navigation)
+   * [Results Navigation](#Results Navigation)
+<!--te-->
+
+
+
+### Introduction Navigation
+
+A 2D map is created through SLAM. The camera being used is a ZED2, which has an IMU. Therefore, it is translated into laserscan in order to use gmapping. 
+
+
+### Results Navigation
+<img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/tony.jpg" width="150" height="250"> 
+
 
 
 
