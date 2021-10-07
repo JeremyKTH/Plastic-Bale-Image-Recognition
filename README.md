@@ -7,6 +7,7 @@
    * [Plastic Bale Recognition](#Plastic_Bale_Recognition)
    * [Mapping](#Mapping)
    * [Navigation](#Navigation)
+   * [Requirements](#Requirements)
    * [Contacts](#Contacts)
    
 
@@ -18,7 +19,6 @@
 <!--ts-->
    * [Introduction](#Introduction)
    * [Datasets](#Datasets)
-   * [Requirements](#Requirements)
    * [Experiments](#Experiments)
    * [Results](#Results)
 <!--te-->
@@ -31,10 +31,6 @@ In order to recognize plastic bale, a model of yolov3 is used. The model is trai
 <img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/Images/plasticbale.png" width="250" height="220"> 
 The datasets that is being used is created by the team. It consists of images taken from the internet of the plastic bale as well as images of our own plastic bale model. In order to get more data, we have augumented the images with 90 degree flips to get more images. 
 
-### Requirements
-- Python  3.9.1
-- PyTorch 1.8.1
-- CUDA toolkit 10.2
 
 
 ### Results
@@ -47,17 +43,17 @@ The datasets that is being used is created by the team. It consists of images ta
 ## Mapping
 
 <!--ts-->
-   * [Introduction Mapping](#Introduction Mapping)
-   * [Results Mapping](#Results Mapping)
+   * [Introduction Mapping](#Introduction_Mapping)
+   * [Results Mapping](#Results _Mapping)
 <!--te-->
 
 
-### Introduction Mapping
+### Introduction_Mapping
 
 A 2D map is created through SLAM. The camera being used is a ZED2, which has an IMU. Therefore, it is translated into laserscan in order to use gmapping. 
 
 
-### Results Mapping
+### Results_Mapping
 <img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/tony.jpg" width="150" height="250"> 
 
 
@@ -67,21 +63,25 @@ A 2D map is created through SLAM. The camera being used is a ZED2, which has an 
 ## Navigation
 
 <!--ts-->
-   * [Introduction Navigation](#Introduction Navigation)
-   * [Results Navigation](#Results Navigation)
+   * [Introduction Navigation](#Introduction_Navigation)
+   * [Results Navigation](#Results_Navigation)
 <!--te-->
 
 
 
-### Introduction Navigation
+### Introduction_Navigation
 
 A 2D map is created through SLAM. The camera being used is a ZED2, which has an IMU. Therefore, it is translated into laserscan in order to use gmapping. 
 
 
-### Results Navigation
+### Results_Navigation
 <img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/tony.jpg" width="150" height="250"> 
 
 
+## Requirements
+- Python  3.9.1
+- PyTorch 1.8.1
+- CUDA toolkit 10.2
 
 
 <!-- CONTACT -->
