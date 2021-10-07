@@ -4,10 +4,10 @@
 # Table of contents
 
 <!--ts-->
-   * Plastic Bale Recognition
-   * Mapping
-   * Navigation
-   * Contact
+   * [Plastic Bale Recognition](#Plastic Bale Recognition)
+   * [Mapping](#Mapping)
+   * [Navigation](#Navigation)
+   * [Contacts](#Contacts)
    
 
 <!--te-->
@@ -21,7 +21,6 @@
    * [Requirements](#Requirements)
    * [Experiments](#Experiments)
    * [Results](#Results)
-   * [Contacts](#Contacts)
 <!--te-->
 
 
@@ -40,6 +39,28 @@ The datasets that is being used is created by the team. It consists of images ta
 
 ### Results
 <img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/tony.jpg" width="150" height="250"> 
+
+
+
+<!-- Mapping -->
+
+## Mapping
+
+<!--ts-->
+   * [Introduction](#Introduction)
+   * [Results](#Results)
+<!--te-->
+
+
+### Introduction
+
+A 2D map is created through SLAM. The camera being used is a ZED2, which has an IMU. Therefore, it is translated into laserscan in order to use gmapping. 
+
+
+### Results
+<img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/tony.jpg" width="150" height="250"> 
+
+
 
 <!-- CONTACT -->
 ## Contact
