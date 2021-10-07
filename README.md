@@ -17,6 +17,7 @@
 
 ## Dataset
 <img src = "https://github.com/JeremyKTH/Plastic-Bale-Image-Recognition/blob/main/Images/plasticbale.png" width="250" height="220"> 
+The datasets that is being used is created by the team. It consists of images taken from the internet of the plastic bale as well as images of our own plastic bale model. In order to get more data, we have augumented the images with 90 degree flips to get more images. 
 
 ## Requirements
 - Python  3.9.1
