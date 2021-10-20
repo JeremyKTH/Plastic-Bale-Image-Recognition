@@ -79,9 +79,14 @@ A 2D map is created through SLAM. The camera being used is a ZED2, which has an 
 
 
 ## Requirements
-- Python  3.9.1
-- PyTorch 1.8.1
-- CUDA toolkit 10.2
+- Python 3.5+
+- PyTorch 3.8.1
+- Ubuntu 18.04 or 20.04
+- ROS Melodic or Neotic
+- CUDA >= 10.2
+- cuDNN >= 8.0.2
+- OpenCV >= 2.4
+- CMake >= 3.18
 
 
 <!-- CONTACT -->
