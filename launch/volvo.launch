@@ -1,14 +1,14 @@
 <launch>
 
-
+  <!-- zed2 camera -->
   <include ns="zed2" file="/home/hk2/catkin_ws/src/zed-ros-wrapper/zed_wrapper/launch/zed2.launch" /> 
-
+  <!-- yolo darknet -->
   <include ns="yolo" file="/home/hk2/catkin_ws/src/darknet_ros/darknet_ros/launch/darknet_ros.launch" /> 
 
    <arg name="camera_model"         default="zed2" />
 
 
- <node pkg="nodelet" type="nodelet" name="laserscan_nodelet_manager" args="manager"/>
+  <node pkg="nodelet" type="nodelet" name="laserscan_nodelet_manager" args="manager"/>
   <node pkg="nodelet" type="nodelet" name="depthimage_to_laserscan"
         args="load depthimage_to_laserscan/DepthImageToLaserScanNodelet laserscan_nodelet_manager">
 
@@ -25,9 +25,7 @@
   </node>
 
     <arg name="svo_file"             default="" /> <!-- <arg name="svo_file" default="path/to/svo/file.svo"> -->
-    <arg name="stream"               default="" /> <!-- <arg name="stream" default="<ip_address>:<port>"> -->
-
- 
+    <arg name="stream"               default="" /> <!-- <arg name="stream" default="<ip_address>:<port>"> --> 
 	<arg name="scan_topic" default="scan" /> 
 
     <!-- Launch ZED camera wrapper -->
@@ -40,13 +38,11 @@
 
 
 
-<!-- BBox Coordinate -->
-    <!--node name="bboxFinder" pkg="volvo"  type="depth2.py" output="screen"></node-->
+<!-- Nodes -->
+    <!-- bbox cooridnates -->
     <node pkg="volvo" name="bboxFinder" type="bbox.py" output="screen"></node>
-    
-
+    <!-- bbox relative position -->
     <node pkg="volvo" name="bboxdistance" type="depth.py" output="screen"></node>
-
 
 
 <!-- Mapping Node -->
@@ -60,8 +56,5 @@
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find zed_display_rviz)/rviz/$(arg camera_model).rviz" output="screen" />
 
 
-
-
-<!-- BBox Distance -->
   
 </launch>
