@@ -1,0 +1,67 @@
+<launch>
+
+
+  <include ns="zed2" file="/home/hk2/catkin_ws/src/zed-ros-wrapper/zed_wrapper/launch/zed2.launch" /> 
+
+  <include ns="yolo" file="/home/hk2/catkin_ws/src/darknet_ros/darknet_ros/launch/darknet_ros.launch" /> 
+
+   <arg name="camera_model"         default="zed2" />
+
+
+ <node pkg="nodelet" type="nodelet" name="laserscan_nodelet_manager" args="manager"/>
+  <node pkg="nodelet" type="nodelet" name="depthimage_to_laserscan"
+        args="load depthimage_to_laserscan/DepthImageToLaserScanNodelet laserscan_nodelet_manager">
+
+    <remap from="camera_info" to="zed2/zed_node/depth/camera_info"/> 
+     <param name="scan_height" value="10"/> 
+     <param name="scan_time" value="0.033"/>
+     <param name="range_min" value="0.45"/>
+     <param name="range_max" value="10.0"/>
+     <param name="min_height" value=".10"/>
+     <param name="max_height" value="2.0"/>
+     <param name="output_frame_id" value="base_link"/>
+     <remap from="image" to="zed2/zed_node/depth/depth_registered"/>
+     <remap from="/scan" to="/depthimage_to_laserscan/$(arg camera_model)/laserscan"/> 
+  </node>
+
+    <arg name="svo_file"             default="" /> <!-- <arg name="svo_file" default="path/to/svo/file.svo"> -->
+    <arg name="stream"               default="" /> <!-- <arg name="stream" default="<ip_address>:<port>"> -->
+
+ 
+	<arg name="scan_topic" default="scan" /> 
+
+    <!-- Launch ZED camera wrapper -->
+    <include file="$(find zed_wrapper)/launch/$(arg camera_model).launch">
+        <arg name="camera_model"        value="$(arg camera_model)" />
+        <arg name="svo_file"            value="$(arg svo_file)" />
+        <arg name="stream"              value="$(arg stream)" />
+
+</include>
+
+
+
+<!-- BBox Coordinate -->
+    <!--node name="bboxFinder" pkg="volvo"  type="depth2.py" output="screen"></node-->
+    <node pkg="volvo" name="bboxFinder" type="bbox.py" output="screen"></node>
+    
+
+    <node pkg="volvo" name="bboxdistance" type="depth.py" output="screen"></node>
+
+
+
+<!-- Mapping Node -->
+    <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping">
+    <remap from="scan" to ="/depthimage_to_laserscan/$(arg camera_model)/laserscan"/>
+	<param name="odom_frame" value="world" />
+	<param name="map_update_interval" value="0.1"/> 
+	</node>
+
+<!-- Launch rivz display -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find zed_display_rviz)/rviz/$(arg camera_model).rviz" output="screen" />
+
+
+
+
+<!-- BBox Distance -->
+  
+</launch>
