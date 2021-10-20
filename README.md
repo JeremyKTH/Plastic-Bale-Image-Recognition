@@ -8,7 +8,7 @@
    * [Mapping](#Mapping)
    * [Navigation](#Navigation)
    * [Requirements](#Requirements)
-   * [Contacts](#Contacts)
+   * [Contacts](#Contact)
    
 
 <!--te-->
