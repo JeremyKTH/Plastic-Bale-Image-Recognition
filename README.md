@@ -8,7 +8,7 @@
    * [Mapping](#Mapping)
    * [Navigation](#Navigation)
    * [Requirements](#Requirements)
-   * [Contacts](#Contact)
+   * [Contacts](#Contacts)
    
 
 <!--te-->
@@ -90,7 +90,7 @@ A 2D map is created through SLAM. The camera being used is a ZED2, which has an 
 
 
 <!-- CONTACT -->
-## Contact
+## Contacts
 - Chieh-Ju Wu (Jeremy) - jeremy.cjwukth@gmail.com
 - Fredrik Mazur - fredrik@mazur.se
 - Daniel Grönås - daniel.gronas@hotmail.com
