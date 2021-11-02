@@ -19,9 +19,11 @@ from cv_bridge import CvBridge, CvBridgeError
 def callback_bbox(data):
 
     global bbox_xCen, bbox_yCen
-
     bbox_xCen = data.xCen
     bbox_yCen = data.yCen
+    
+    # Get depth map
+    rospy.Subscriber("/zed2/zed_node/depth/depth_registered", Image, callback_depth)
     
  
 def callback_depth(data):  
@@ -33,14 +35,20 @@ def callback_depth(data):
     
     depth = cv_image[bbox_yCen, bbox_xCen]  # vertical distance to bbox
     depth2 = cv_image[0, bbox_xCen]         # vertical distance to background
+    
+    if depth>0.1:
  
-    pos_calc(depth)
+        pos_calc(depth)
     
     
     
 def pos_calc(depth):
     
+    
+    
+    
     # If bbox is at left half part of the camera's view
+
     if bbox_xCen < 960:
         x = math.sqrt(3)*depth2*(960-bbox_xCen)/960
         x /= 100        # unit: m  to cm
@@ -58,23 +66,24 @@ def pos_calc(depth):
         depth /= 10
         position = (0, depth)
         
-    print("Bbox position relative to camera: ", position)
+    #print("Bbox position relative to camera: ", position)
+    
+    
     
     # Create message
-    bbox_dist = bbox_pos()
-    bbox_dist.xCen = float(position[0])
-    bbox_dist.yCen = float(position[1])
+    bbox_position = bbox_pos()
+    bbox_position.x = int(position[0])
+    bbox_position.y = int(position[1])
 
     # Publish message
-    pos_to_map.publish(bbox_dist)
+    pos_to_map.publish(bbox_position)
     
     
 def dis_func():
     # Get bbox coordinates
     rospy.Subscriber('bbox_info', bbox, callback_bbox)
     
-    # Get depth map
-    rospy.Subscriber("/zed2/zed_node/depth/depth_registered", Image, callback_depth)
+    
     
     rospy.spin()
    
