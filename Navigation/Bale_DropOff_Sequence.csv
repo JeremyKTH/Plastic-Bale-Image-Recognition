@@ -1,0 +1,5 @@
+velocity, steering angle, bucket angle, bucket height,  scissor angle,  waiting time
+0.05,     0,        0,      150,        0,        4
+0,        0,      -40,      250,        0,        15
+-0.05,    0,      -40,      250,        0,        4
+0,        0,        0,      150,        0,        10
