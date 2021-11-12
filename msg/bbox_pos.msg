@@ -1,2 +1,2 @@
-float64 xCen
-float64 yCen
+float64 x
+float64 y

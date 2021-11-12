@@ -1,0 +1,5 @@
+float64 velocity
+float64 steering_angle
+float64 bucket_angle
+float64 bucket_height
+float64 scissor_angle
