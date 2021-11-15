@@ -110,7 +110,7 @@ class UART:
                 # print(firstbyte)
 
                 if firstbyte>>6 == 0:
-                    errorcode = Ser.read(1)[0];
+                    errorcode = Ser.read(1)[0]
                     print('Error: #' + str(errorcode) + '    Sequence: #' + str(firstbyte & 0x3F))
                 elif firstbyte>>6 == 1:
                     data = Ser.read(22)
@@ -144,15 +144,15 @@ class UART:
 
 
 def main():
-    Python 3.5+
-    PyTorch 3.8.1
-    Ubuntu 18.04 or 20.04
-    ROS Melodic or Neotic
-    CUDA >= 10.2
-    cuDNN >= 8.0.2
-    OpenCV >= 2.4
-    CMake >= 3.18
- [m/s]> <steering angle [rad]> <arm angle [rad]> <bucket angle [rad]> <scissor angle [rad]> <perod [ms]> - send periodic control messages")
+#     Python 3.5+
+#     PyTorch 3.8.1
+#     Ubuntu 18.04 or 20.04
+#     ROS Melodic or Neotic
+#     CUDA >= 10.2
+#     cuDNN >= 8.0.2
+#     OpenCV >= 2.4
+#     CMake >= 3.18
+#  [m/s]> <steering angle [rad]> <arm angle [rad]> <bucket angle [rad]> <scissor angle [rad]> <perod [ms]> - send periodic control messages")
     print("A <period [ms]> - enable autonomous mode (awaits external control commands)")
     print("A <velocity [m/s]> <steering angle [rad]> <arm angle [rad]> <bucket angle [rad]> <scissor angle [rad]> <perod [ms]> - send periodic AS control messages")
     print("L <period (optional)> - toggle UART listner")
@@ -188,10 +188,10 @@ def main():
                 continue
             U.SendCommand(4, b'')
         elif command == "C":input
-            if len(inputArgs) != 7:
-                print("Invalid input. Try:")
-                print("C <velocity [m/s]> <steering angle [rad]> <arm angle [rad]> <bucket angle [rad]> <scissor angle [rad]> <perod [ms]>")
-                continue
+        if len(inputArgs) != 7:
+            print("Invalid input. Try:")
+            print("C <velocity [m/s]> <steering angle [rad]> <arm angle [rad]> <bucket angle [rad]> <scissor angle [rad]> <perod [ms]>")
+            continue
             velocity = struct.pack('i', int(inputArgs[1]))[0]
             steering_ang = struct.pack('i', int(inputArgs[2]))[0]
             arm_ang = int(inputArgs[3])
@@ -259,3 +259,4 @@ if __name__ == '__main__':
 
 
     main()
+
