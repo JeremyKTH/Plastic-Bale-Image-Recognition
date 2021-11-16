@@ -1,5 +1,5 @@
 #!/usr/bin/env python3.8
-import math
+
 from nav_functions import *
 from volvo.msg import cam_pos, state_message
 from WheelLoaderController4 import Controller, Observer
@@ -31,7 +31,7 @@ def nav_1_2(vel, steer_angle, orient_threshold):
     while (orient_curr < (90-orient_threshold)):
         # Get orientation
         orient_curr = get_imu_info()
-        print(f'orientation difference: {90-orient_curr}, Need to turn left!')
+        #print(f'orientation difference: {90-orient_curr}, Need to turn left!')
         # Publish command to UART
         send_command(vel, steer_angle, 0, 0, 0)
         
@@ -70,7 +70,7 @@ def nav_3_1(vel, steer_angle, orient_threshold):
     while (80 < orient_curr < (177-orient_threshold)):
         # Get orientation
         orient_curr = get_imu_info()
-        print(f'orientation difference: {177-orient_curr}, Need to reverse right!')
+        #print(f'orientation difference: {177-orient_curr}, Need to reverse right!')
         
         # Publish command to UART (reverse right)   
         send_command(-vel, -steer_angle, 0, 0, 0)
@@ -105,7 +105,7 @@ def nav_5_1(vel, steer_angle, orient_threshold):
     while (((177-orient_threshold) < orient_curr) or (orient_curr < (-177+orient_threshold))):
         # Get orientation
         orient_curr = get_imu_info()
-        print(f'orientation difference: {(-177+orient_threshold)-orient_curr}, Need to reverse right!')
+        #print(f'orientation difference: {(-177+orient_threshold)-orient_curr}, Need to reverse right!')
         
         # Publish command to UART (reverse right) 
         send_command(-vel, -steer_angle, 0, 0, 0)
