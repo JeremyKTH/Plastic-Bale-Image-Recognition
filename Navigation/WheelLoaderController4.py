@@ -111,7 +111,7 @@ class Observer:
         self.error_message_flag = 0
         self.RXThreadPeriod = 90
         self.RX = threading.Thread(target=self.RXThread, args=(1,), daemon=True)
-        self.X = self.Y = self.velocity_actual = self.Theta = self.sens1 = self.sens2 = self.sens3 = self.mode = 0
+        self.X = self.Y = self.velocity_actual = self.Theta = self.sens1 = self.sens2 = self.sens3 = self.mode = (0,)
         self.steering_ang_actual = self.bucket_ang_actual = self.bucket_height_actual = self.scissor_ang_actual = 0
         self.log_filename = "log.csv"
         self.logfile = None
@@ -145,7 +145,7 @@ class Observer:
                     self.velocity_actual = self.Communicator.data[12]
                     self.steering_ang_actual = self.Communicator.data[13]
                     self.bucket_ang_actual = self.Communicator.data[14]
-                    self.bucket_height_actual = self.Communicator.dapts/SequenceExecuter.pta[15]
+                    self.bucket_height_actual = self.Communicator.data[15]
                     self.scissor_ang_actual = self.Communicator.data[16]
                     self.sens1 = struct.unpack('H', self.Communicator.data[17:19])
                     self.sens2 = self.Communicator.data[19]
