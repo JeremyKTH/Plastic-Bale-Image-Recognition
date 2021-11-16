@@ -8,7 +8,7 @@ class WheelLoaderCommunication(serial.Serial):
     this class per com port can be used"""
 
     def __init__(self, SerialPort):
-        self.ControlMsgSeq=self.EnableASMsgSeq=self.rxSeq=self.errorseq = 0     # Message sequence numbers
+        self.ControlMsgSeq=self.EnableASMsgSeq=self.rxSeq=self.errorseq=self.rexeseq = 0     # Message sequence numbers
         self.data = []                                                          # Data container for received messages
         self.running = False                                                    # State of the communication session
         self.TX_log_filename = "TX_log.csv"
@@ -17,6 +17,9 @@ class WheelLoaderCommunication(serial.Serial):
         self.RX_logfile = None
         self.log_TX = False
         self.log_RX = False
+        self.errorcode = None
+        self.remote_exe_command = None
+        # self.timeout = None
         try:
             super().__init__(
                 SerialPort, 115200,
@@ -62,7 +65,7 @@ class WheelLoaderCommunication(serial.Serial):
         opcode = firstbyte>>6
 
         if opcode == 1:
-            self.data = self.read(22)
+            self.data = self.read(23)
             self.rxSeq = firstbyte & 0b0011111111
             if self.log_RX:
                 self.RX_logfile.write(', '.join(str(val) for val in [self.rxSeq]+ list(self.data)) + '\n')
@@ -74,6 +77,12 @@ class WheelLoaderCommunication(serial.Serial):
             if self.log_RX:
                 self.RX_logfile.write(', '.join(str(val) for val in [self.errorseq, self.errorcode]) + '\n')
 
+        elif opcode == 2:
+            self.remote_exe_command = self.read(1)[0]
+            self.rexeseq = firstbyte & 0x3F
+            if self.log_RX:
+                self.RX_logfile.write(', '.join(str(val) for val in [self.rexeseq, self.remote_exe_command]) + '\n')
+
         elif opcode == 3:
             self.timeout = 0.1
             self.data = self.read(firstbyte & 0b0011111111)
@@ -84,7 +93,7 @@ class WheelLoaderCommunication(serial.Serial):
         else:
             print("___Unknown OpCode: " + str(opcode))
             return -1
-
+        self.reset_input_buffer()
         return opcode
 
     def startLoggingTX(self, filename = "TX_log.csv"):

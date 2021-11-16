@@ -28,7 +28,7 @@ class Controller:
         self.mode = self.bucket_ang = self.bucket_height = self.scissor_ang = 0
         self.TXThreadPeriod = 90
         self.TX = threading.Thread(target=self.TXThread, args=(1,), daemon=True)
-        self.velocity = self.steering_ang  = 128
+        self.velocity = self.steering_ang_front = self.steering_ang_rear = 128
 
     def startThread(self):
         """Start the transmitter thread"""
@@ -41,7 +41,7 @@ class Controller:
         while 1:
             # print(self.mode)
             if self.mode == self.MANUAL_MODE:
-                data = bytes([self.velocity, self.steering_ang, self.bucket_ang, self.bucket_height, self.scissor_ang])
+                data = bytes([self.velocity, self.steering_ang_front, self.steering_ang_rear, self.bucket_ang, self.bucket_height, self.scissor_ang])
                 try:
                     self.Communicator.SendCommand(1, data)
                     # print("sent data")
@@ -53,7 +53,7 @@ class Controller:
 
             elif self.mode == self.AUTONOMOUS_MODE:
                 try:
-                    data = bytes([self.velocity, self.steering_ang, self.bucket_ang, self.bucket_height, self.scissor_ang])
+                    data = bytes([self.velocity, self.steering_ang_front, self.steering_ang_rear, self.bucket_ang, self.bucket_height, self.scissor_ang])
                     self.Communicator.SendCommand(3, data)
                 except ValueError:
                     print("Value error! Value(s) given were out of range")
@@ -74,10 +74,11 @@ class Controller:
     def ExecuteArgs(self,inputArgs):
         """Control vehicle with these parameters"""
         self.velocity = int(inputArgs[0])
-        self.steering_ang = int(inputArgs[1])
-        self.bucket_ang = int(inputArgs[2])
-        self.bucket_height = int(inputArgs[3])
-        self.scissor_ang = int(inputArgs[4])
+        self.steering_ang_front = int(inputArgs[1])
+        self.steering_ang_rear = int(inputArgs[2])
+        self.bucket_ang = int(inputArgs[3])
+        self.bucket_height = int(inputArgs[4])
+        self.scissor_ang = int(inputArgs[5])
 
 
 class Observer:
@@ -112,7 +113,7 @@ class Observer:
         self.RXThreadPeriod = 90
         self.RX = threading.Thread(target=self.RXThread, args=(1,), daemon=True)
         self.X = self.Y = self.velocity_actual = self.Theta = self.sens1 = self.sens2 = self.sens3 = self.mode = 0
-        self.steering_ang_actual = self.bucket_ang_actual = self.bucket_height_actual = self.scissor_ang_actual = 0
+        self.velocity_actual = self.steering_ang_front_actual = self.steering_ang_rear_actual = self.bucket_ang_actual = self.bucket_height_actual = self.scissor_ang_actual = 0
         self.log_filename = "log.csv"
         self.logfile = None
         self.log_data = False
@@ -143,27 +144,32 @@ class Observer:
                     self.Y = struct.unpack('f', self.Communicator.data[4:8])
                     self.Theta = struct.unpack('f', self.Communicator.data[8:12])
                     self.velocity_actual = self.Communicator.data[12]
-                    self.steering_ang_actual = self.Communicator.data[13]
-                    self.bucket_ang_actual = self.Communicator.data[14]
-                    self.bucket_height_actual = self.Communicator.data[15]
-                    self.scissor_ang_actual = self.Communicator.data[16]
-                    self.sens1 = struct.unpack('H', self.Communicator.data[17:19])
-                    self.sens2 = self.Communicator.data[19]
-                    self.sens3 = self.Communicator.data[20]
-                    self.mode = self.Communicator.data[21]
+                    self.steering_ang_front_actual = self.Communicator.data[13]
+                    self.steering_ang_rear_actual = self.Communicator.data[14]
+                    self.bucket_ang_actual = self.Communicator.data[15]
+                    self.bucket_height_actual = self.Communicator.data[16]
+                    self.scissor_ang_actual = self.Communicator.data[17]
+                    self.sens1 = struct.unpack('H', self.Communicator.data[18:20])
+                    self.sens2 = self.Communicator.data[20]
+                    self.sens3 = self.Communicator.data[21]
+                    self.mode = self.Communicator.data[22]
                     self.state_message_flag = 1;
                     if(self.log_data):
-                        self.logfile.write(datetime.now().strftime("%H:%M:%S.%f, ") + ' ,'.join(str(val) for val in [self.X[0], self.Y[0], self.Theta[0], self.velocity_actual, self.steering_ang_actual, self.bucket_ang_actual, self.bucket_height_actual, self.scissor_ang_actual, self.sens1[0], self.sens2, self.sens3, self.mode]) + '\n')
+                        self.logfile.write(datetime.now().strftime("%H:%M:%S.%f, ") + ' ,'.join(str(val) for val in [self.X[0], self.Y[0], self.Theta[0], self.velocity_actual, self.steering_ang_front_actual, self.steering_ang_rear_actual, self.bucket_ang_actual, self.bucket_height_actual, self.scissor_ang_actual, self.sens1[0], self.sens2, self.sens3, self.mode]) + '\n')
                     else :
-                        print('Sq#' + str(self.Communicator.rxSeq) + ' X={:.2f} Y={:.2f} Theta={:.2f} velocity={} steering angle={} bucket angle={} bucket height={} scissor angle={} sens1={} sens2={} sens3={} mode={}'\
-                        .format(self.X[0], self.Y[0], self.Theta[0], self.velocity_actual, self.steering_ang_actual, self.bucket_ang_actual, self.bucket_height_actual, self.scissor_ang_actual, self.sens1[0], self.sens2, self.sens3, self.mode))
+                        print('Sq#' + str(self.Communicator.rxSeq) + ' X={:.2f} Y={:.2f} Theta={:.2f} velocity={} steering angle front={} steering angle rear={} bucket angle={} bucket height={} scissor angle={} sens1={} sens2={} sens3={} mode={}'\
+                        .format(self.X[0], self.Y[0], self.Theta[0], self.velocity_actual, self.steering_ang_front_actual, self.steering_ang_rear_actual, self.bucket_ang_actual, self.bucket_height_actual, self.scissor_ang_actual, self.sens1[0], self.sens2, self.sens3, self.mode))
                 elif message_type == 0:
-                    self.last_error = (self.error_lookup[self.Communicator.errorcode], self.Communicator.errorseq)
+                    try:
+                        self.last_error = (self.error_lookup[self.Communicator.errorcode], self.Communicator.errorseq)
+                    except IndexError:
+                        continue
                     self.error_message_flag = 1
                     if(self.log_data):
                         self.logfile.write("Error #" + str(self.last_error[1]) + ", " + self.last_error[1] + '\n')
                     print('Error: ' + self.last_error[0] + '    Sequence: #' + str(self.last_error[1]))
-
+                elif message_type == 2:
+                    print('Received execution command: ' + str(self.Communicator.remote_exe_command))
             else:
                 sleep(self.RXThreadPeriod/1000)
     def getStates(self):
@@ -171,7 +177,7 @@ class Observer:
         this method to ensure that the states are new"""
         if self.state_message_flag:
             self.state_message_flag = 0 # clear the flag
-        return (self.X[0], self.Y[0], self.Theta[0], self.velocity_actual, self.steering_ang_actual, self.bucket_ang_actual, self.bucket_height_actual, self.scissor_ang_actual, self.sens1[0], self.sens2, self.sens3, self.mode)
+        return (self.X[0], self.Y[0], self.Theta[0], self.velocity_actual, self.steering_ang_front_actual, self.steering_ang_rear_actual, self.bucket_ang_actual, self.bucket_height_actual, self.scissor_ang_actual, self.sens1[0], self.sens2, self.sens3, self.mode)
     def getError(self):
         """Get the last error in a tuple: (error_type, Sequence number).
         Check error_message_flag before calling
@@ -202,10 +208,11 @@ def main():
         sys.exit("Could not open serial port.")
     print("S - stop")
     print("R <X [m]> <Y [m]> <Theta [rad]> - Reset coordinate system")
+    print("E <command> - send remote execution command request message")
     print("G - Get current state of vehicle")
-    print("C <velocity> <steering angle> <arm angle> <bucket height> <scissor angle> <period [ms]> - send periodic control messages")
+    print("C <velocity> <steering angle front> <steering angle rear> <arm angle> <bucket height> <scissor angle> <period [ms]> - send periodic control messages")
     print("A <period [ms]> - enable autonomous mode (awaits external control commands)")
-    print("A <velocity [m/s]> <steering angle> <bucket angle> <bucket height> <scissor angle> <period [ms]> - send periodic AS control messages")
+    print("A <velocity [m/s]> <steering angle front> <steering angle rear> <bucket angle> <bucket height> <scissor angle> <period [ms]> - send periodic AS control messages")
     print("L <period (optional)> - toggle UART listner")
     print("T <message up to 63 characters> - Send communication test message")
     print("Q - quit program")
@@ -231,6 +238,17 @@ def main():
             x, y, theta = [float(inputArgs[i]) for i in range(1,4)]
             data = struct.pack('fff', x, y, theta)
             U.SendCommand(0, data)
+        elif command == "E":
+            if len(inputArgs) != 2:
+                print("Invalid input. Try:")
+                print("E <command>")
+                continue
+            try:
+                data = bytes([int(inputArgs[1])])
+            except ValueError:
+                print("Invalid input. Value must be an integer within the range [0,255]")
+                continue
+            U.SendCommand(0b101, data)
         elif command == "G":
             if len(inputArgs) != 1:
                 print("Invalid input. Try:")
@@ -238,12 +256,12 @@ def main():
                 continue
             U.SendCommand(4, b'')
         elif command == "C":
-            if len(inputArgs) != 7:
+            if len(inputArgs) != 8:
                 print("Invalid input. Try:")
-                print("C <velocity [m/s]> <steering angle [rad]> <arm angle [rad]> <bucket angle [rad]> <scissor angle [rad]> <perod [ms]>")
+                print("C <velocity> <steering angle front> <steering angle rear> <arm angle> <bucket angle> <scissor angle> <perod [ms]>")
                 continue
             controlArgs = inputArgs[1:-1]
-            C.TXThreadPeriod = int(inputArgs[6])
+            C.TXThreadPeriod = int(inputArgs[7])
             C.ExecuteArgs(controlArgs)
             if C.mode != 1:
                 C.Run(C.MANUAL_MODE)                                                        # Starts the thread
@@ -251,16 +269,16 @@ def main():
             if len(inputArgs) == 2:
                 C.TXThreadPeriod = int(inputArgs[1])
                 C.Run(C.READY_IN_AUTOMOMOUS_MODE)
-            elif len(inputArgs) == 7:
+            elif len(inputArgs) == 8:
                 # velocity = struct.pack('i', int(inputArgs[1]))[0]
                 # steering_ang = struct.pack('i', int(inputArgs[2]))[0]
                 controlArgs = inputArgs[1:-1]
                 C.ExecuteArgs(controlArgs)
-                C.TXThreadPeriod = int(inputArgs[6])
+                C.TXThreadPeriod = int(inputArgs[7])
                 C.Run(C.AUTONOMOUS_MODE)
             else:
                 print("Invalid input. Try:")
-                print("A <velocity [m/s]> <steering angle [rad]> <arm angle [rad]> <bucket angle [rad]> <scissor angle [rad]> <perod [ms]> or A <period [ms]>")
+                print("A <velocity [m/s]> <steering angle front> <steering angle rear> <arm angle> <bucket angle> <scissor angle> <perod [ms]> or A <period [ms]>")
                 continue
         elif command == "L":
             if O.listen:

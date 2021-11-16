@@ -4,11 +4,11 @@ from time import sleep
 import sys
 
 def mapValue(val, max, min):
-    if val > max:
+    if val >= max:
         return 0xff
     if val < min:
         return 0
-    return int(0xff*(val-min)//(max-min))
+    return int(0x100*(val-min)//(max-min))
 
 def main():
     if len(sys.argv) == 1:
@@ -43,10 +43,11 @@ def main():
         #print(instruction)
         try:
             C.velocity = mapValue(float(instruction[0]), 0.2199, -0.2199)
-            C.steering_ang = mapValue(float(instruction[1]), 12.903, -12.903)
-            C.bucket_ang = mapValue(float(instruction[2]), 60, -46)
-            C.bucket_height = mapValue(float(instruction[3]), 477, -75)
-            C.scissor_ang = mapValue(float(instruction[4]), 35, 0)
+            C.steering_ang_front = mapValue(float(instruction[1]), 12.903, -12.903)
+            C.steering_ang_rear = mapValue(float(instruction[2]), 12.903, -12.903)
+            C.bucket_ang = mapValue(float(instruction[3]), 60, -46)
+            C.bucket_height = mapValue(float(instruction[4]), 477, -75)
+            C.scissor_ang = mapValue(float(instruction[5]), 35, 0)
         except (ValueError):
             instruction = f.readline().split(',')
             continue
@@ -54,7 +55,7 @@ def main():
         if C.mode != 1:
             C.Run(1)
 
-        sleep(float(instruction[5]))
+        sleep(float(instruction[6]))
 
         instruction = f.readline().split(',')
     U.stopLoggingTX()
