@@ -1,8 +1,9 @@
 #!/usr/bin/env python3.8
 
 from nav_functions import *
-from volvo.msg import cam_pos, state_message
+from volvo.msg import cam_pos, state_message, bbox_pos
 from WheelLoaderController4 import Controller, Observer
+
 
 # -----------------------------------------------------------
 # Navigation 1.1: Drive forward
@@ -26,6 +27,7 @@ def nav_1_1(vel, forward_dist_1_1, current_pos, orient_origin, orient_threshold)
     
 def nav_1_2(vel, steer_angle, orient_threshold):
     
+    # Get orientation
     orient_curr = get_imu_info()
 
     while (orient_curr < (90-orient_threshold)):
@@ -37,24 +39,41 @@ def nav_1_2(vel, steer_angle, orient_threshold):
         
 # -----------------------------------------------------------
 # Navigation 1.3: Drive forward until bale is seen
+       
+def nav_1_3(vel, orient_origin, orient_threshold):
     
-def nav_1_3(vel, forward_dist_1_3, current_pos, orient_origin, orient_threshold):
-     
-    while (current_pos < forward_dist_1_3):
+    # Check if bbox is detected
+    xCen, _ = get_bbox_info()
+    
+    while (xCen == 0):
+        
         # Get orientation
         orient_curr = get_imu_info()
         
         # Check if adjustment is required
-        adjust_orient(vel, orient_curr, orient_origin, orient_threshold) 
-    
-        # Calulate distance
-        current_pos, _ = get_state_info()
+        adjust_orient(vel, orient_curr, orient_origin, orient_threshold)
+        
+        # Check if bbox is detected
+        xCen, _ = get_bbox_info()
 
 # -----------------------------------------------------------    
 # Navigation 1.4: Align to bale until approx. 25 cm away
 
-def nav_1_4():
-    pass
+def nav_1_4(vel, orient_origin, orient_threshold):
+    
+    # Check distance to bbox
+    x, _ = get_bbox_dist_info()
+    
+    while (x > 0.25):
+        
+        # Get orientation
+        orient_curr = get_imu_info()
+        
+        # Check if adjustment is required
+        adjust_orient(vel, orient_curr, orient_origin, orient_threshold)
+        
+        # Check distance to bbox
+        x, _ = get_bbox_dist_info()
     
 # -----------------------------------------------------------    
 # Navigation 2: When close enough (25 cm), run Bale_PickUp_bucket.csv
@@ -73,8 +92,7 @@ def nav_3_1(vel, steer_angle, orient_threshold):
         #print(f'orientation difference: {177-orient_curr}, Need to reverse right!')
         
         # Publish command to UART (reverse right)   
-        send_command(-vel, -steer_angle, 0, 0, 0)
-         
+        send_command(-vel, -steer_angle, 0, 0, 0)         
         
 # -----------------------------------------------------------    
 # Navigation 3.2: Drive forward
