@@ -19,7 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
 # find_package(Boost REQUIRED COMPONENTS system)
 
 
-## Uncomment this if the package has a setup.py. This macro ensures
+## Uncomment this if thinte package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
 ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
 # catkin_python_setup()
@@ -53,12 +53,20 @@ add_message_files(
    FILES
    bbox.msg
    bbox_pos.msg
+   state_message.msg
+   
    )
 
 ## Generate services in the 'srv' folder
 add_service_files(
    FILES
-   bbbox.srv  
+   bbbox.srv
+   imu.srv
+   cam_pos.srv
+   hitta_bbox.srv
+   hitta_bbox_dist.srv
+   
+   
 )
 
 ## Generate actions in the 'action' folder
@@ -167,7 +175,7 @@ link_directories(${catkin_LIBRARY_DIRS})
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
-   scripts/bbox.py scripts/depth.py scripts/depth2.py
+   scripts/bbox.py scripts/depth.py scripts/coorTransform.py scripts/pickup_bucket.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
@@ -186,12 +194,7 @@ catkin_install_python(PROGRAMS
 # )
 
 ## Mark cpp header files for installation
-#install(DIRECTORY include/${PROJECT_NAME}/
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-#   FILES_MATCHING PATTERN "*.h"
-#   PATTERN ".svn" EXCLUDE
-# )
-
+#install(DIRECTORY include/$tute whatever ROS distro you have if its not kinetic.
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES
 #   # myfile1
