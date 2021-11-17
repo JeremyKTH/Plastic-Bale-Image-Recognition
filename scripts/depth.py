@@ -2,8 +2,8 @@
 import rospy
 import math
 import numpy as np
-from volvo.msg import bbox
-from volvo.msg import bbox_pos
+from volvo.msg import bbox, bbox_pos
+from volvo.srv import hitta_bbox_dist, hitta_bbox_distResponse
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 
@@ -15,6 +15,7 @@ from cv_bridge import CvBridge, CvBridgeError
 # --------------------------------------------------------------------------------------------------
 # Note     : Should transform the coordinates to Global Frame for visualising it on rviz
 """
+position = (0, 0)
 
 def callback_bbox(data):
 
@@ -43,12 +44,9 @@ def callback_depth(data):
     
     
 def pos_calc(depth):
-    
-    
-    
+    global position
     
     # If bbox is at left half part of the camera's view
-
     if bbox_xCen < 960:
         x = math.sqrt(3)*depth2*(960-bbox_xCen)/960
         x /= 100        # unit: m  to cm
@@ -62,11 +60,12 @@ def pos_calc(depth):
         depth /= 10     # unit: mm to cm
         position = (x, depth)
     
+    # If bbox is straight at the front
     else:
         depth /= 10
         position = (0, depth)
         
-    #print("Bbox position relative to camera: ", position)
+    #print("bbox position relative to camera: ", position)
     
     
     
@@ -79,19 +78,23 @@ def pos_calc(depth):
     pos_to_map.publish(bbox_position)
     
     
-def dis_func():
-    # Get bbox coordinates
-    rospy.Subscriber('bbox_info', bbox, callback_bbox)
+def bbox_dist_service():
+    global position
+    return hitta_bbox_distResponse(position[0], position[1])
     
-    
-    
-    rospy.spin()
    
 
 if __name__ == '__main__':
     rospy.init_node('bboxDistance', anonymous=False)
 
+    # Publish bbox distance to coorTransform.py
     pos_to_map = rospy.Publisher("bbox_dist", bbox_pos, queue_size=10)
     
-    dis_func()
+    # Create a service for getting system states
+    s = rospy.Service('hitta_bbox_dist_service', hitta_bbox_dist, bbox_dist_service)
+    
+    # Get bbox coordinates
+    rospy.Subscriber('bbox_info', bbox, callback_bbox)
+    
+    rospy.spin()
 
