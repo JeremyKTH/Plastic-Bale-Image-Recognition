@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.8
 import rospy
 from volvo.msg import bbox
+from volvo.srv import hitta_bbox, hitta_bboxResponse
 from darknet_ros_msgs.msg import BoundingBoxes
 
 """
@@ -11,10 +12,11 @@ from darknet_ros_msgs.msg import BoundingBoxes
 # -------------------------------------------------------------------------
 # Note     : depth.py subscribes to this node
 """
-
+xCen, yCen = 0
 
 # Subscriber callback func
 def callback(data):
+    global xCen, yCen
     if data is not None:
         for i in range(len(data.bounding_boxes)):
             
@@ -50,16 +52,11 @@ def callback(data):
 
             # Publish message
             bbox_pub.publish(bbox_info)
-        
 
-    
-def bbox_func():
-
-    # Subscribe bbox info
-    rospy.Subscriber("darknet_ros/bounding_boxes", BoundingBoxes, callback)
-    
-    rospy.spin()
-
+# Service callback func
+def bbox_service():
+    global xCen, yCen
+    return hitta_bboxResponse(xCen, yCen)
     
 
 if __name__ == '__main__':
@@ -67,7 +64,11 @@ if __name__ == '__main__':
 
     # Publish bbox info to depth.py
     bbox_pub = rospy.Publisher("bbox_info", bbox, queue_size=10)
+    
+    # Create a service for getting system states
+    s = rospy.Service('hitta_bbox_service', hitta_bbox, bbox_service)
+    
+    # Subscribe bbox info
+    rospy.Subscriber("darknet_ros/bounding_boxes", BoundingBoxes, callback)
 
-    bbox_func()
-    
-    
+    rospy.spin()
