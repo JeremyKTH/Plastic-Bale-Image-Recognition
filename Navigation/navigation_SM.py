@@ -51,14 +51,15 @@ from nav_sequences import *
 """
 
 orient_z = 0
+bbox_flag = 0
 # --------------------------------------------------------------- 
 # Navigation
-
 
 def navigation():
     
     vel = 0.05 # m/s
     steer_angle_max = 12.903
+    global bbox_flag
     
     # -----------------------------------------------------------
     # Navigation 1.1: Drive forward
@@ -67,7 +68,7 @@ def navigation():
     print("Start section 1.1")
     print("-----------------")    
     
-    forward_dist_1_1 = 10
+    forward_dist_1_1 = 2
     current_pos = 0
     orient_origin = 0
     orient_threshold = 5
@@ -101,13 +102,13 @@ def navigation():
     print("-----------------")
     print("Start section 1.3")
     print("-----------------")    
-    
-    forward_dist_1_3 = 5
-    current_pos = 0
+
     orient_origin = 90
     
     # UNTIL BALE IS SEEN
-    nav_1_3(vel, forward_dist_1_3, current_pos, orient_origin, orient_threshold)
+    
+    nav_1_3(vel, orient_origin, orient_threshold)
+        
     
     print("---------------------------")
     print("Destination 1.3 has reached")
@@ -116,8 +117,16 @@ def navigation():
     
     # -----------------------------------------------------------    
     # Navigation 1.4: Align to bale until approx. 25 cm away
+    print("-----------------")
+    print("Start section 1.4")
+    print("-----------------")  
     
-    nav_1_4()
+    nav_1_4(vel, orient_origin, orient_threshold)
+    
+    print("---------------------------")
+    print("Destination 1.4 has reached")
+    print("---------------------------")
+    rospy.sleep(4.0)
     
     # -----------------------------------------------------------
     # Navigation 2: When close enough (25 cm), run Bale_PickUp_bucket.csv
