@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.8
+#!/usr/bin/env python
 import rospy
 import numpy as np
 from sensor_msgs.msg import Imu
@@ -54,18 +54,22 @@ def get_state_info():
 
 def adjust_orient(vel, orient_curr, orient_origin, orient_threshold):
     
-    orient_diff = orient_curr - (orient_origin + orient_threshold)
-    orient_diff = mapValue(orient_diff)
     K_err = 1
     
-    if(orient_diff > 0):
+    if(orient_curr > orient_origin + orient_threshold):
+        orient_diff = orient_curr - (orient_origin + orient_threshold)
+        orient_diff = mapValue(orient_diff)
+        
         # Need to adjust right
         print("Adjust right")
         
         # Publish command to UART
         send_command(vel, K_err*orient_diff, 0, 0, 0)
           
-    elif(orient_diff < 0):
+    elif(orient_curr < orient_origin - orient_threshold):
+        orient_diff = orient_curr - (orient_origin - orient_threshold)
+        orient_diff = mapValue(orient_diff)
+    
         # Need to adjust left   
         print("Adjust left")
         # Publish command to UART
