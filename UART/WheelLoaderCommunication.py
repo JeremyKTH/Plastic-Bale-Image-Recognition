@@ -21,7 +21,7 @@ class WheelLoaderCommunication(serial.Serial):
         self.remote_exe_command = None
         # self.timeout = None
         try:
-            super().__init__(
+            super(WheelLoaderCommunication, self).__init__(
                 SerialPort, 115200,
                 timeout = None, bytesize=serial.EIGHTBITS,
                 parity=serial.PARITY_NONE,
