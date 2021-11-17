@@ -3,7 +3,8 @@ from datetime import datetime
 import sys
 import struct
 import threading
-from WheelLoaderCommunication import WheelLoaderCommunication
+# from FakeWheelLoaderCommunication import WheelLoaderCommunication             # For testing without a serial port connected
+from WheelLoaderCommunication import WheelLoaderCommunication                   # For normal operation
 
 pi = 3.141592
 
@@ -18,17 +19,17 @@ class Controller:
     """
 
     # Modes
-    STOPPED_MODE = 0s
-    MANUAL_MODE = 1
-    READY_IN_AUTOMOMOUS_MODE = 2
-    AUTONOMOUS_MODE = 3
+    STOPPED_MODE = 0;
+    MANUAL_MODE = 1;
+    READY_IN_AUTOMOMOUS_MODE = 2;
+    AUTONOMOUS_MODE = 3;
 
     def __init__(self, comm):
         self.Communicator = comm
         self.mode = self.bucket_ang = self.bucket_height = self.scissor_ang = 0
         self.TXThreadPeriod = 90
         self.TX = threading.Thread(target=self.TXThread, args=(1,))
-        self.TX.daemon=True
+        self.TX.daemon=True;
         self.velocity = self.steering_ang_front = self.steering_ang_rear = 128
 
     def startThread(self):
@@ -42,7 +43,8 @@ class Controller:
         while 1:
             # print(self.mode)
             if self.mode == self.MANUAL_MODE:
-                data = bytes([self.velocity, self.steering_ang_front, self.steering_ang_rear, self.bucket_ang, self.bucket_height, self.scissor_ang])
+                # data = bytes([self.velocity, self.steering_ang_front, self.steering_ang_rear, self.bucket_ang, self.bucket_height, self.scissor_ang])
+                data = ''.join(chr(x) for x in [self.velocity, self.steering_ang_front, self.steering_ang_rear, self.bucket_ang, self.bucket_height, self.scissor_ang])
                 try:
                     self.Communicator.SendCommand(1, data)
                     # print("sent data")
@@ -54,7 +56,8 @@ class Controller:
 
             elif self.mode == self.AUTONOMOUS_MODE:
                 try:
-                    data = bytes([self.velocity, self.steering_ang_front, self.steering_ang_rear, self.bucket_ang, self.bucket_height, self.scissor_ang])
+                    # data = bytes([self.velocity, self.steering_ang_front, self.steering_ang_rear, self.bucket_ang, self.bucket_height, self.scissor_ang])
+                    data = ''.join(chr(x) for x in [self.velocity, self.steering_ang_front, self.steering_ang_rear, self.bucket_ang, self.bucket_height, self.scissor_ang])
                     self.Communicator.SendCommand(3, data)
                 except ValueError:
                     print("Value error! Value(s) given were out of range")
@@ -114,7 +117,7 @@ class Observer:
         self.RXThreadPeriod = 90
         self.RX = threading.Thread(target=self.RXThread, args=(1,))
         self.RX.daemon=True
-        self.X = self.Y = self.velocity_actual = self.Theta = self.sens1 = self.sens2 = self.sens3 = self.mode = (0,)
+        self.X = self.Y = self.velocity_actual = self.Theta = self.sens1 = self.sens2 = self.sens3 = self.mode = 0
         self.velocity_actual = self.steering_ang_front_actual = self.steering_ang_rear_actual = self.bucket_ang_actual = self.bucket_height_actual = self.scissor_ang_actual = 0
         self.log_filename = "log.csv"
         self.logfile = None
@@ -145,16 +148,16 @@ class Observer:
                     self.X = struct.unpack('f', self.Communicator.data[0:4])
                     self.Y = struct.unpack('f', self.Communicator.data[4:8])
                     self.Theta = struct.unpack('f', self.Communicator.data[8:12])
-                    self.velocity_actual = self.Communicator.data[12]
-                    self.steering_ang_front_actual = self.Communicator.data[13]
-                    self.steering_ang_rear_actual = self.Communicator.data[14]
-                    self.bucket_ang_actual = self.Communicator.data[15]
-                    self.bucket_height_actual = self.Communicator.data[16]
-                    self.scissor_ang_actual = self.Communicator.data[17]
+                    self.velocity_actual = ord(self.Communicator.data[12])
+                    self.steering_ang_front_actual = ord(self.Communicator.data[13])
+                    self.steering_ang_rear_actual = ord(self.Communicator.data[14])
+                    self.bucket_ang_actual = ord(self.Communicator.data[15])
+                    self.bucket_height_actual = ord(self.Communicator.data[16])
+                    self.scissor_ang_actual = ord(self.Communicator.data[17])
                     self.sens1 = struct.unpack('H', self.Communicator.data[18:20])
-                    self.sens2 = self.Communicator.data[20]
-                    self.sens3 = self.Communicator.data[21]
-                    self.mode = self.Communicator.data[22]
+                    self.sens2 = ord(self.Communicator.data[20])
+                    self.sens3 = ord(self.Communicator.data[21])
+                    self.mode = ord(self.Communicator.data[22])
                     self.state_message_flag = 1;
                     if(self.log_data):
                         self.logfile.write(datetime.now().strftime("%H:%M:%S.%f, ") + ' ,'.join(str(val) for val in [self.X[0], self.Y[0], self.Theta[0], self.velocity_actual, self.steering_ang_front_actual, self.steering_ang_rear_actual, self.bucket_ang_actual, self.bucket_height_actual, self.scissor_ang_actual, self.sens1[0], self.sens2, self.sens3, self.mode]) + '\n')
@@ -206,6 +209,7 @@ def main():
     else:
         port = sys.argv[1]
     U = WheelLoaderCommunication(port)
+
     if(not U.running):
         sys.exit("Could not open serial port.")
     print("S - stop")
@@ -246,7 +250,8 @@ def main():
                 print("E <command>")
                 continue
             try:
-                data = bytes([int(inputArgs[1])])
+                # data = bytes([int(inputArgs[1])]) # only works in python 3
+                data = chr(int(inputArgs[1]))
             except ValueError:
                 print("Invalid input. Value must be an integer within the range [0,255]")
                 continue

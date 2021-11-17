@@ -32,8 +32,10 @@ class WheelLoaderCommunication(serial.Serial):
             print("___Failed to open serial port " + SerialPort)
 
     def SendCommand(self, OpCode, data):
-        # print(data)
-        if self.write(bytes([OpCode<<5 | self.ControlMsgSeq]) + data) != len(data) + 1:
+        # print(len(data), type(data))
+        bytessent = self.write(chr(OpCode<<5 | self.ControlMsgSeq) + data)
+        # print(bytessent)
+        if bytessent != len(data) + 1:
             print("___Failed to send bytes")
             return False
         self.ControlMsgSeq = (self.ControlMsgSeq + 1) % 32
@@ -42,14 +44,14 @@ class WheelLoaderCommunication(serial.Serial):
         return True
 
     def SendEnableSignal(self):
-        if self.write([0b01000000 | self.EnableASMsgSeq]) != 1:
+        if self.write(chr(0b01000000 | self.EnableASMsgSeq)) != 1:
             print("___Failed to send byte")
             return False
         self.EnableASMsgSeq = (self.EnableASMsgSeq + 1) % 32
         return True
 
     def SendCommTest(self, message):
-        self.write(bytes([0b11000000 | len(message)]) + bytes(message, "ASCII"))
+        self.write(chr(0b11000000 | len(message)) + message)
         # print(bytes([0b11000000 | len(message)]) + bytes(message, "ASCII"))
 
     def ReadMessage(self):
@@ -61,7 +63,7 @@ class WheelLoaderCommunication(serial.Serial):
             print("___Failed to read op-code, Timeout")
             return False
 
-        firstbyte = in_data[0]
+        firstbyte = ord(in_data[0])
         opcode = firstbyte>>6
 
         if opcode == 1:
@@ -72,13 +74,13 @@ class WheelLoaderCommunication(serial.Serial):
 
 
         elif opcode == 0:
-            self.errorcode = self.read(1)[0]
+            self.errorcode = ord(self.read(1)[0])
             self.errorseq = firstbyte & 0x3F
             if self.log_RX:
                 self.RX_logfile.write(', '.join(str(val) for val in [self.errorseq, self.errorcode]) + '\n')
 
         elif opcode == 2:
-            self.remote_exe_command = self.read(1)[0]
+            self.remote_exe_command = ord(self.read(1)[0])
             self.rexeseq = firstbyte & 0x3F
             if self.log_RX:
                 self.RX_logfile.write(', '.join(str(val) for val in [self.rexeseq, self.remote_exe_command]) + '\n')
