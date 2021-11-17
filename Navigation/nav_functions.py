@@ -1,9 +1,9 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3.8
 import rospy
 import numpy as np
 from sensor_msgs.msg import Imu
 from volvo.msg import state_message
-from volvo.srv import imu, cam_pos
+from volvo.srv import imu, cam_pos, hitta_bbox, hitta_bbox_dist
 from time import sleep
 
 
@@ -48,7 +48,41 @@ def get_state_info():
 
     except rospy.ServiceException as e:
         print("Service call failed: %s"%e)
+        
+# --------------------------------------------------------------- 
+# Service: Get bbox coordinates   
+def get_bbox_info():
+    rospy.wait_for_service('hitta_bbox_service')
+    
+    try:
+        state_srv = rospy.ServiceProxy('hitta_bbox_service', hitta_bbox)
+        bbox_info = state_srv(1.0) # send in random value of bla cuz not using it
+        
+        x = bbox_info.xCen
+        y = bbox_info.yCen
+        
+        return x, y
 
+    except rospy.ServiceException as e:
+        print("Service call failed: %s"%e)
+        
+# --------------------------------------------------------------- 
+# Service: Get bbox distance   
+def get_bbox_dist_info():
+    rospy.wait_for_service('hitta_bbox_dist_service')
+    
+    try:
+        state_srv = rospy.ServiceProxy('hitta_bbox_dist_service', hitta_bbox_dist)
+        bbox_dist_info = state_srv(1.0) # send in random value of bla cuz not using it
+        
+        x = bbox_dist_info.x
+        y = bbox_dist_info.y
+        
+        return x, y
+
+    except rospy.ServiceException as e:
+        print("Service call failed: %s"%e)
+        
 # ---------------------------------------------------------------     
 # Function: Adjust orientation
 
@@ -172,10 +206,10 @@ def mapValue(val):
         return min
     else:
         return val
-        
+
 
 if __name__ == '__main__':
     
     rospy.init_node('nav_functions', anonymous = False)
-    
+        
     rospy.spin()
