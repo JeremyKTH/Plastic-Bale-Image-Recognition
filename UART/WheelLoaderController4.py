@@ -18,16 +18,17 @@ class Controller:
     """
 
     # Modes
-    STOPPED_MODE = 0;
-    MANUAL_MODE = 1;
-    READY_IN_AUTOMOMOUS_MODE = 2;
-    AUTONOMOUS_MODE = 3;
+    STOPPED_MODE = 0s
+    MANUAL_MODE = 1
+    READY_IN_AUTOMOMOUS_MODE = 2
+    AUTONOMOUS_MODE = 3
 
     def __init__(self, comm):
         self.Communicator = comm
         self.mode = self.bucket_ang = self.bucket_height = self.scissor_ang = 0
         self.TXThreadPeriod = 90
-        self.TX = threading.Thread(target=self.TXThread, args=(1,), daemon=True)
+        self.TX = threading.Thread(target=self.TXThread, args=(1,))
+        self.TX.daemon=True
         self.velocity = self.steering_ang_front = self.steering_ang_rear = 128
 
     def startThread(self):
@@ -111,8 +112,9 @@ class Observer:
         self.last_error = []
         self.error_message_flag = 0;
         self.RXThreadPeriod = 90
-        self.RX = threading.Thread(target=self.RXThread, args=(1,), daemon=True)
-        self.X = self.Y = self.velocity_actual = self.Theta = self.sens1 = self.sens2 = self.sens3 = self.mode = 0
+        self.RX = threading.Thread(target=self.RXThread, args=(1,))
+        self.RX.daemon=True
+        self.X = self.Y = self.velocity_actual = self.Theta = self.sens1 = self.sens2 = self.sens3 = self.mode = (0,)
         self.velocity_actual = self.steering_ang_front_actual = self.steering_ang_rear_actual = self.bucket_ang_actual = self.bucket_height_actual = self.scissor_ang_actual = 0
         self.log_filename = "log.csv"
         self.logfile = None
@@ -225,7 +227,7 @@ def main():
     inputArgs = []
     inputStr = ""
     while command != "Q":
-        inputStr = input()
+        inputStr = raw_input()
         inputArgs = inputStr.split(" ")
         command = inputArgs[0]
         if command == "S":
