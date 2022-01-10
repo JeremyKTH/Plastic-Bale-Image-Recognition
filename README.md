@@ -4,7 +4,6 @@
 
 <!--ts-->
    * [Plastic Bale Recognition](#Plastic_Bale_Recognition)
-   * [Mapping](#Mapping)
    * [Navigation](#Navigation)
    * [Requirements](#Requirements)
    * [Contacts](#Contacts)
